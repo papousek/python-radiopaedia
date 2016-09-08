@@ -6,7 +6,7 @@ DIR = os.path.dirname(os.path.abspath(__file__))
 VERSION = '1.0.0-dev'
 
 setup(
-    name='python-radiopaedia',
+    name='python-anatomy-crawler',
     version=VERSION,
     author='Jan Papousek',
     author_email='jan.papousek@gmail.com',
