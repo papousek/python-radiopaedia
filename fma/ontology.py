@@ -1,4 +1,4 @@
-from .crawler import load_transformed_triples, get_triples, get_starts, get_ends, get_relations
+from .crawler import load_transformed_triples
 from collections import defaultdict
 from copy import deepcopy
 from spiderpig import spiderpig

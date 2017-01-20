@@ -121,6 +121,12 @@ def load_transformed_triples():
         term = [t[2] for t in ax if t[1] == 'http://www.w3.org/2002/07/owl#annotatedSource'][0]
         property_name = [t[2] for t in ax if t[1] == 'http://www.w3.org/2002/07/owl#annotatedProperty'][0]
         property_value = [t[2] for t in ax if t[1] == 'http://www.w3.org/2002/07/owl#annotatedTarget'][0]
+        if property_name == 'http://purl.org/sig/ont/fma/non-English_equivalent':
+            langs = get_triples(ax, relation='http://purl.org/sig/ont/fma/language')
+            if len(langs) == 0:
+                continue
+            lang = langs[0][2]
+            property_name = '{}_{}'.format(property_name, lang)
         if len(ta_ids) > 0:
             properties[ax[0][0]].append((term, 'http://purl.org/sig/ont/fma/TA_ID', ta_ids[0]))
         properties[ax[0][0]].append((term, property_name, property_value))
