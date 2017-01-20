@@ -62,6 +62,21 @@ def load_ontology(taids_only=True):
 
 
 @spiderpig()
+def load_terminology():
+    result = []
+    for term, term_data in load_ontology()['terms'].items():
+        info_data = term_data['info']
+        result.append({
+            'FMA': term.replace('http://purl.org/sig/ont/fma/', '').upper(),
+            'TA': info_data.get('http://purl.org/sig/ont/fma/TA_ID', [None])[0],
+            'RADLEX': info_data.get('http://purl.org/sig/ont/fma/RadLex_ID', [None])[0],
+            'english_name': info_data.get('http://purl.org/sig/ont/fma/preferred_name', [None])[0],
+            'latin_name': names_list(info_data.get('http://purl.org/sig/ont/fma/non-English_equivalent_Latin', None))
+        })
+    return pandas.DataFrame(result)
+
+
+@spiderpig()
 def load_raw_ontology():
     to_export = defaultdict(lambda: defaultdict(set))
     for t in [t for t in load_transformed_triples() if t[0].startswith('http://purl.org/sig/ont/fma/fma')]:
@@ -87,3 +102,9 @@ def load_raw_ontology():
         'relation-names': sorted(relation_names),
         'info-names': sorted(info_names),
     }
+
+
+def names_list(val):
+    if val is None:
+        return None
+    return '|'.join(val)
